@@ -36,7 +36,7 @@ except ImportError:
 COMMON_SYSTEM_ID = base64.b16decode('1077EFECC0B24D02ACE33C1E52E2FB4B')
 WIDEVINE_SYSTEM_ID = base64.b16decode('EDEF8BA979D64ACEA3C827DCD51D21ED')
 PLAYREADY_SYSTEM_ID = base64.b16decode('9A04F07998404286AB92E65BE0885F95')
-
+FAIRPLAY_SYSTEM_ID = base64.b16decode('29701FE43CC74A348C5BAE90C7439A47')
 
 class BinaryReader(object):
   """A helper class used to read binary data from an binary string."""
@@ -111,6 +111,8 @@ class Pssh(object):
       convert_data = _parse_playready_data
     elif self.system_id == COMMON_SYSTEM_ID:
       system_name = 'Common'
+    elif self.system_id == FAIRPLAY_SYSTEM_ID:
+      system_name = 'FairPlay'
 
     lines = [
         'PSSH Box v%d' % self.version,
@@ -351,6 +353,11 @@ reasons.""")
                           action='store_const',
                           const=WIDEVINE_SYSTEM_ID,
                           help='Use the Widevine system ID')
+  system_ids.add_argument('--fairplay-system-id',
+                          dest='system_id',
+                          action='store_const',
+                          const=FAIRPLAY_SYSTEM_ID,
+                          help='Use the FairPlay system ID')
 
   extra = parser.add_argument_group()
   extra.add_argument('--key-id',
